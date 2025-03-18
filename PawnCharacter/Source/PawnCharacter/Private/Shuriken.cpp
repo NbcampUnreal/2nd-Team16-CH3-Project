@@ -15,7 +15,7 @@ AShuriken::AShuriken()
 
     DamageAmount = 20.0f;
     WeaponRange = 10000.0f;
-    Direction = FVector(1.0f, 0.0f, 0.0f);  // 기본적으로 X축 방향으로 이동
+    //Direction = FVector(1.0f, 0.0f, 0.0f);  // 기본적으로 X축 방향으로 이동
     Speed = 1000.0f;  // 속도 설정
 
     DefaultFOV = 90.0f; // 기본 FOV 값
@@ -26,7 +26,7 @@ AShuriken::AShuriken()
 
 void AShuriken::Fire()
 {
-    APlayerController* PlayerController = Cast<APlayerController>(GetOwner());
+    APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
     if (!PlayerController)
     {
         UE_LOG(LogTemp, Warning, TEXT("PlayerController not found!"));
@@ -39,9 +39,10 @@ void AShuriken::Fire()
     PlayerController->GetPlayerViewPoint(CameraLocation, CameraRotation);
 
     // 발사 방향을 카메라 방향으로 설정
-    Direction = CameraRotation.Vector();
+    //Direction = CameraRotation.Vector();
 
-    FVector EndLocation = CameraLocation + (Direction * WeaponRange);
+	APawn* Pawn = PlayerController->GetPawn();
+    FVector EndLocation = Pawn->GetActorLocation() + (Direction * WeaponRange);
 
     FCollisionQueryParams QueryParams;
     QueryParams.AddIgnoredActor(this);
@@ -79,14 +80,20 @@ void AShuriken::BeginPlay()
 {
     Super::BeginPlay();
 
-    if (APlayerController* PlayerController = Cast<APlayerController>(GetOwner()))
+    if (APlayerController* PlayerController = GetWorld()->GetFirstPlayerController())
     {
         if (PlayerController->PlayerCameraManager)
         {
             DefaultFOV = PlayerController->PlayerCameraManager->GetFOVAngle();
         }
+		APawn* Pawn = PlayerController->GetPawn();
+        if (Pawn)
+        {
+			Direction = Pawn->GetActorForwardVector();
+        }
     }
 }
+
 
 
 void AShuriken::SetAiming(bool bAiming)
@@ -103,12 +110,8 @@ void AShuriken::Tick(float DeltaTime)
 }
 void AShuriken::MoveMessage(float DeltaTime)
 {
-    // 현재 위치 가져오기
-    FVector currentPosition = WeaponMesh->GetComponentLocation();
-
-    // 새로운 위치 계산
+    FVector currentPosition = GetActorLocation();
     FVector newPosition = currentPosition + (Direction * Speed * DeltaTime);
 
-    // 메시의 새로운 위치로 갱신
-    WeaponMesh->SetWorldLocation(newPosition);
+    SetActorLocation(newPosition);
 }
