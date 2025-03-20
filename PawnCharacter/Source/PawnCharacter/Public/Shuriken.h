@@ -54,6 +54,11 @@ protected:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Projectile")
     float Speed;
 
+    FVector Pose;
+    FVector ActorPose;
+
+    FVector EndLocation;
+
     // 이동 함수 (헤더에 선언)
     void MoveMessage(float DeltaTime);
 

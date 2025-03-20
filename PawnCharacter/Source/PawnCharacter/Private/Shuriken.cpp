@@ -37,12 +37,17 @@ void AShuriken::Fire()
     FVector CameraLocation;
     FRotator CameraRotation;
     PlayerController->GetPlayerViewPoint(CameraLocation, CameraRotation);
-
+    
     // 발사 방향을 카메라 방향으로 설정
-    //Direction = CameraRotation.Vector();
+    Direction = CameraRotation.Vector();
 
-	APawn* Pawn = PlayerController->GetPawn();
-    FVector EndLocation = Pawn->GetActorLocation() + (Direction * WeaponRange);
+    APawn* Pawn = PlayerController->GetPawn();
+    Direction = Pawn->GetActorForwardVector();
+
+    Pose = Pawn->GetActorLocation();
+    ActorPose = GetActorLocation();
+    Pose.Z = ActorPose.Z;
+    EndLocation = Pose + (Direction * WeaponRange);
 
     FCollisionQueryParams QueryParams;
     QueryParams.AddIgnoredActor(this);
