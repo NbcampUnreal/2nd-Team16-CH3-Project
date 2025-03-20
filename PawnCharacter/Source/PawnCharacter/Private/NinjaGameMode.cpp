@@ -120,8 +120,8 @@ void ANinjaGameMode::SpawnEnemies()
 
     // 고정된 두 개의 스폰 위치 설정
     FVector SpawnLocations[2] = {
-        FVector(-4360, 570, 720), // 첫 번째 스폰 위치
-        FVector(-32710, 13620, 1120)  // 두 번째 스폰 위치
+        FVector(-10880, 7060, 700), // 첫 번째 스폰 위치
+        FVector(-29980, 13000, 860)  // 두 번째 스폰 위치
     };
 
     // 두 개의 위치 중에서 번갈아 가면서 스폰
