@@ -5,5 +5,6 @@
 APawnGameMode::APawnGameMode()
 {
 	GameStateClass = APawnGameState::StaticClass();
+	DefaultPawnClass = APawnPlayer::StaticClass();
 }
 

@@ -17,8 +17,9 @@
 
 APawnPlayer::APawnPlayer()
 {
+    UE_LOG(LogTemp, Warning, TEXT("APawnPlayer"));
     PrimaryActorTick.bCanEverTick = true;
-
+ 
     CapsuleComponent = CreateDefaultSubobject<UCapsuleComponent>(TEXT("Capsule"));
     CapsuleComponent->InitCapsuleSize(42.f, 96.f);
     RootComponent = CapsuleComponent;
@@ -88,7 +89,7 @@ void APawnPlayer::BeginPlay()
 void APawnPlayer::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
-
+    UE_LOG(LogTemp, Warning, TEXT("Tick"));
     const FRotator CameraRotation = Camera->GetComponentRotation();
     const FRotator YawOnlyRotation(0.f, CameraRotation.Yaw, 0.f);
 
@@ -137,9 +138,10 @@ void APawnPlayer::Tick(float DeltaTime)
     SpringArm->bUsePawnControlRotation = true;  // 카메라가 컨트롤러의 회전을 따라가도록 설정
     bUseControllerRotationYaw = false;  // 플레이어 본체는 회전하지 않도록 설정
 
-
+    UE_LOG(LogTemp, Warning, TEXT("in"));
     if (APlayerController* PlayerController = Cast<APlayerController>(GetOwner()))
     {
+        UE_LOG(LogTemp, Warning, TEXT("out"));
         if (PlayerController->PlayerCameraManager)
         {
            // if (bIsAiming)
@@ -182,7 +184,7 @@ void APawnPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
                 EnhancedInput->BindAction(MyController->AimAction, ETriggerEvent::Triggered, this, &APawnPlayer::StartAiming);
                 EnhancedInput->BindAction(MyController->AimAction, ETriggerEvent::Completed, this, &APawnPlayer::StopAiming);
             }
-
+            UE_LOG(LogTemp, Warning, TEXT("call"));
             
         }
     }
