@@ -88,12 +88,12 @@ void ANinjaGameMode::StartWave()
 
     if (CurrentWave >= MaxWave)
     {
-        UE_LOG(LogTemp, Warning, TEXT("마지막 웨이브입니다!"));
+        UE_LOG(LogTemp, Warning, TEXT("Final wave!"));
         return;
     }
 
     CurrentWave++;
-    UE_LOG(LogTemp, Warning, TEXT("웨이브 %d 시작!"), CurrentWave);
+    UE_LOG(LogTemp, Warning, TEXT("Wave %d Start!"), CurrentWave);
 
     // 이번 웨이브에서 스폰할 몬스터 수 증가
     int SpawnCount = EnemiesPerWave * CurrentWave;
@@ -114,7 +114,7 @@ void ANinjaGameMode::SpawnEnemies()
 {
     if (!EnemyClass)
     {
-        UE_LOG(LogTemp, Error, TEXT("EnemyClass가 NULL이므로 몬스터를 생성할 수 없습니다!"));
+        UE_LOG(LogTemp, Error, TEXT("EnemyClass is NULL can't make it!"));
         return;
     }
 
@@ -140,10 +140,10 @@ void ANinjaGameMode::SpawnEnemies()
 
     if (SpawnedEnemy)
     {
-        UE_LOG(LogTemp, Warning, TEXT("몬스터가 생성되었습니다! 위치: %s"), *SpawnLocation.ToString());
+        UE_LOG(LogTemp, Warning, TEXT("Enemy spawned at location! 위치: %s"), *SpawnLocation.ToString());
     }
     else
     {
-        UE_LOG(LogTemp, Error, TEXT("몬스터 생성 실패!"));
+        UE_LOG(LogTemp, Error, TEXT("Enemy spawned is fail!"));
     }
 }
